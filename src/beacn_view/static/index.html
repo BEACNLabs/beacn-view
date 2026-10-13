@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1017" />
+    <title>BEACN View · Screen viewer</title>
+    <link rel="icon" href="/static/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/" aria-label="BEACN View home"
+        ><img src="/static/icon.svg" alt="" width="38" height="38" /><span
+          >BEACN <b>View</b></span
+        ></a
+      ><span class="tag">READ-ONLY / SELF-HOSTED</span
+      ><span id="connection" class="connection">Disconnected</span>
+    </header>
+    <main>
+      <aside>
+        <div class="eyebrow">YOUR SCREEN, WITHIN REACH</div>
+        <h1>
+          Keep an eye<br />
+          on the work.
+        </h1>
+        <p class="intro">
+          A window into another desktop. Check a build, follow an agent, or
+          glance at a long-running task.
+        </p>
+        <form id="connect-form">
+          <label for="token">Host access token</label
+          ><input
+            id="token"
+            name="token"
+            type="password"
+            required
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Paste your private token"
+          /><button id="connect" type="submit" class="primary">
+            Connect to screen <span aria-hidden="true">↗</span>
+          </button>
+          <p class="hint">
+            Your token stays in this tab’s memory. It is cleared when you
+            disconnect or reload.
+          </p>
+        </form>
+        <div id="session" hidden>
+          <div class="session-note">
+            <span class="dot"></span> Connected to this host
+          </div>
+          <button id="disconnect" class="secondary">
+            Disconnect &amp; clear screen
+          </button>
+        </div>
+        <details class="controls" id="settings" open>
+          <summary>View settings</summary>
+          <label for="monitor">Display</label
+          ><select id="monitor" disabled>
+            <option value="1">Connect to list displays</option>
+          </select>
+          <div class="two">
+            <div>
+              <label for="interval">Refresh</label
+              ><select id="interval">
+                <option value="0">Manual only</option>
+                <option value="1">Every second</option>
+                <option value="2" selected>Every 2 seconds</option>
+                <option value="5">Every 5 seconds</option>
+                <option value="15">Every 15 seconds</option>
+              </select>
+            </div>
+            <div>
+              <label for="resolution">Image width</label
+              ><select id="resolution">
+                <option value="960">960 px</option>
+                <option value="1920" selected>1920 px</option>
+                <option value="3840">3840 px</option>
+                <option value="7680">Up to 7680 px</option>
+              </select>
+            </div>
+          </div>
+          <label for="quality">JPEG quality</label
+          ><select id="quality">
+            <option value="55">Economy · 55</option>
+            <option value="80" selected>Balanced · 80</option>
+            <option value="95">Detailed · 95</option>
+          </select>
+          <details>
+            <summary>Crop a region</summary>
+            <p class="hint">
+              Pixels relative to the selected display. Set width and height to 0
+              for the remaining display area.
+            </p>
+            <div class="two">
+              <label
+                >X<input
+                  id="crop-x"
+                  type="number"
+                  min="0"
+                  max="32768"
+                  value="0" /></label
+              ><label
+                >Y<input
+                  id="crop-y"
+                  type="number"
+                  min="0"
+                  max="32768"
+                  value="0" /></label
+              ><label
+                >Width<input
+                  id="crop-width"
+                  type="number"
+                  min="0"
+                  max="32768"
+                  value="0" /></label
+              ><label
+                >Height<input
+                  id="crop-height"
+                  type="number"
+                  min="0"
+                  max="32768"
+                  value="0"
+              /></label>
+            </div>
+            <button id="apply-crop" class="secondary" disabled>
+              Apply crop
+            </button>
+          </details>
+        </details>
+        <p class="privacy">
+          Direct connection. No analytics.<br />No cloud relay. No remote input.
+        </p>
+      </aside>
+      <section class="workspace" aria-label="Screen viewer">
+        <div class="toolbar">
+          <div>
+            <span class="eyebrow">DESKTOP VIEW</span
+            ><strong id="frame-state" role="status">Ready when you are</strong>
+          </div>
+          <div class="actions">
+            <button id="refresh" disabled>Capture now</button
+            ><button id="pause" disabled>Pause</button>
+          </div>
+        </div>
+        <div id="error" role="alert" hidden></div>
+        <div id="demo-banner" hidden>
+          SYNTHETIC DEMO · Generated sample content. No real desktop is
+          captured.
+        </div>
+        <div
+          id="stage"
+          tabindex="0"
+          aria-label="Screen image. Scroll to pan when zoomed."
+        >
+          <div id="empty">
+            <svg viewBox="0 0 80 70" width="80" height="70" aria-hidden="true">
+              <rect x="8" y="8" width="64" height="43" rx="6"></rect>
+              <path d="M27 63h26M40 51v12M29 29h22M40 18v22"></path>
+            </svg>
+            <h2>A little visibility goes a long way.</h2>
+            <p>
+              Connect to see the host’s screen here.<br />Viewing never moves
+              its mouse or types a key.
+            </p>
+          </div>
+          <img
+            id="frame"
+            alt="Latest capture from the selected host display"
+            hidden
+          />
+        </div>
+        <div class="viewbar">
+          <div class="zoom">
+            <label for="zoom">Zoom</label
+            ><select id="zoom">
+              <option value="fit">Fit</option>
+              <option value="1">100%</option>
+              <option value="1.5">150%</option>
+              <option value="2">200%</option>
+            </select>
+          </div>
+          <span id="frame-info">No frame captured</span>
+          <div class="actions">
+            <button id="fullscreen">Full screen</button
+            ><button id="save" disabled>Save JPEG</button>
+          </div>
+        </div>
+        <footer>
+          <span id="freshness">Frames stay in memory unless you save one.</span
+          ><span>BEACNLabs / v0.1</span>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>

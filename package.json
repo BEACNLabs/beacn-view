@@ -1,0 +1,12 @@
+{
+  "name": "beacn-view-browser-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/browser.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0",
+    "@axe-core/playwright": "4.13.0"
+  }
+}

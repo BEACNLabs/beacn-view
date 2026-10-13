@@ -1,0 +1,7 @@
+include LICENSE README.md SECURITY.md CONTRIBUTING.md THIRD_PARTY.md
+include package.json package-lock.json
+recursive-include docs *.md *.png
+recursive-include tests *.py *.mjs
+recursive-include src/beacn_view/static *.html *.css *.js *.svg
+prune qa
+prune node_modules

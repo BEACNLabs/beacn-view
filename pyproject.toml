@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "beacn-view"
+version = "0.1.0"
+description = "An open-source screen host, browser viewer, and read-only MCP bridge."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "BEACNLabs"}]
+dependencies = ["fastapi==0.143.0", "uvicorn==0.54.0", "mss==10.2.0", "Pillow==12.3.0", "httpx==0.28.1"]
+
+[project.optional-dependencies]
+mcp = ["mcp==2.3.0"]
+dev = ["pytest==9.1.1", "build>=1.2"]
+
+[project.scripts]
+beacn-view = "beacn_view.cli:main"
+
+[project.urls]
+Repository = "https://github.com/BEACNLabs/beacn-view"
+Issues = "https://github.com/BEACNLabs/beacn-view/issues"
+
+[tool.setuptools.package-data]
+beacn_view = ["static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
