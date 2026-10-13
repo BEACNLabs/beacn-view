@@ -10,6 +10,8 @@ Release checks performed on 2026-10-13:
 - Source distribution and wheel built; package contents reviewed. Dependency audit performed against the isolated development environment. No known vulnerabilities reported after updating the development environment's pip.
 - Publication scan covers staged source, documentation, image metadata, and built archives for private endpoints, machine names, local environment paths, excluded product names, credentials, or unexpected files. Fresh repository history; no private project history imported.
 
+GitHub-hosted validation also passed all seven jobs in the [initial release CI run](https://github.com/BEACNLabs/beacn-view/actions/runs/38446229469): Python 3.11/3.13 on Windows, macOS and Linux, plus browser and isolated X11 checks. A fresh wheel installation independently served the bundled viewer and returned a synthetic frame.
+
 Not yet accepted: native Windows/macOS capture, real Android/iOS hardware, Wayland, secure/login desktop, multi-monitor hardware, high-DPI native device behavior, long-session performance or independent security review. Monitor-offset/crop behavior is exercised with generated test geometry. No actual desktop input is implemented or tested.
 
 Reproduce:

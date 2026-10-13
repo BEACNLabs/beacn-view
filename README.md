@@ -194,3 +194,5 @@ Future possibilities include a Wayland portal backend, native installers and opt
 ## License
 
 [MIT](LICENSE) · Built by [BEACNLabs](https://github.com/BEACNLabs).
+
+Explore the [BEACNLabs public tools directory](https://github.com/BEACNLabs/tools).

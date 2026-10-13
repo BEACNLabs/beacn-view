@@ -11,4 +11,5 @@ dist/
 *.key
 captures/
 qa/
-node_modules/
+node_modules
+.ruff_cache/
